@@ -9,12 +9,7 @@ namespace CLR {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	/// <summary>
-	/// Сводка для MyForm
-	/// </summary>
-
-	///////////////////////////////////////////
-	ref struct MyStruct
+	ref struct MyStruct //РћР±СЉРµРєС‚С‹ СЌС‚РѕР№ СЃС‚СЂСѓРєС‚СѓСЂС‹ Р±СѓРґСѓС‚ РІРєР»СЋС‡Р°С‚СЊ РІ СЃРµР±СЏ РґР°РЅРЅС‹Рµ Рѕ Р°РІС‚РѕРјРѕР±РёР»Рµ. 
 	{
 		MyStruct(String^ number, String^ year,String^ mark)
 		{
@@ -22,13 +17,10 @@ namespace CLR {
 			Year = year;
 			Mark = mark;
 		}
-		System::String^ Number;
-		System::String^ Year;
-		System::String^ Mark;
+		System::String^ Number;//Р“РѕСЃ. РЅРѕРјРµСЂ
+		System::String^ Year;//Р“РѕРґ РІС‹РїСѓСЃРєР°
+		System::String^ Mark;//РњР°СЂРєР° Р°РІС‚РѕРјРѕР±РёР»СЏ
 	};
-	///////////////////////////////////////////
-
-
 
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
@@ -36,15 +28,9 @@ namespace CLR {
 		MyForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			//
 		}
 
 	protected:
-		/// <summary>
-		/// Освободить все используемые ресурсы.
-		/// </summary>
 		~MyForm()
 		{
 			if (components)
@@ -52,138 +38,127 @@ namespace CLR {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Button^  button1;
-	private: System::Windows::Forms::Button^  button2;
-	private: System::Windows::Forms::ComboBox^  comboBox1;
-	private: System::Windows::Forms::ComboBox^  comboBox2;
-	private: System::Windows::Forms::CheckBox^  checkBox1;
-	private: System::Windows::Forms::DateTimePicker^  dateTimePicker1;
-	private: System::Windows::Forms::Label^  label1;
-	private: System::Windows::Forms::Label^  label2;
+	private: System::Windows::Forms::Button^  Save_Button;
+	private: System::Windows::Forms::Button^  Generate_Button;
+	private: System::Windows::Forms::ComboBox^  Doc_Template_ComboBox;
+	private: System::Windows::Forms::ComboBox^  Auto_Number_ComboBox;
+	private: System::Windows::Forms::CheckBox^  Default_Organization;
+	private: System::Windows::Forms::DateTimePicker^  dateTimePicker;
+	private: System::Windows::Forms::Label^  Doc_Template_Label;
+	private: System::Windows::Forms::Label^  Auto_Number_Label;
 
 	private: array<Control^>^ Objects = gcnew array<Control^>(3);
 
 	private: array<String^>^ FileNames = gcnew array<String^>(GetSize("FileNames.txt"));
 	private: array<String^>^ FileNamesRu = gcnew array<String^>(GetSize("FileNamesRu.txt"));
 	private: array<String^>^ BuferFileNamesRu = gcnew array<String^>(GetSize("FileNamesRu.txt"));
-	//private: array<String^, 2>^ NumberAuto = gcnew array<String^, 2>(GetSize("NumberAuto.txt"), 2);
 	private: array<MyStruct^>^ NumberAuto = gcnew array<MyStruct^>(GetSize("NumberAuto.txt"));
 	private: array<String^>^ BuferNumberAuto = gcnew array<String^>(GetSize("NumberAuto.txt"));
 	private: bool b;
-
-			
-	protected:
-
 	private:
-		/// <summary>
-		/// Обязательная переменная конструктора.
-		/// </summary>
 		System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Требуемый метод для поддержки конструктора — не изменяйте 
-		/// содержимое этого метода с помощью редактора кода.
-		/// </summary>
+		
 		void InitializeComponent(void)
 		{
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
-			this->comboBox2 = (gcnew System::Windows::Forms::ComboBox());
-			this->dateTimePicker1 = (gcnew System::Windows::Forms::DateTimePicker());
-			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->checkBox1 = (gcnew System::Windows::Forms::CheckBox());
+			this->Save_Button = (gcnew System::Windows::Forms::Button());
+			this->Doc_Template_ComboBox = (gcnew System::Windows::Forms::ComboBox());
+			this->Auto_Number_ComboBox = (gcnew System::Windows::Forms::ComboBox());
+			this->dateTimePicker = (gcnew System::Windows::Forms::DateTimePicker());
+			this->Doc_Template_Label = (gcnew System::Windows::Forms::Label());
+			this->Auto_Number_Label = (gcnew System::Windows::Forms::Label());
+			this->Generate_Button = (gcnew System::Windows::Forms::Button());
+			this->Default_Organization = (gcnew System::Windows::Forms::CheckBox());
 			this->SuspendLayout();
 			// 
-			// button1
+			// Save_Button
 			// 
-			this->button1->Location = System::Drawing::Point(15, 108);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(75, 23);
-			this->button1->TabIndex = 0;
-			this->button1->Text = L"Сохранить";
-			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
+			this->Save_Button->Location = System::Drawing::Point(15, 108);
+			this->Save_Button->Name = L"Save_Button";
+			this->Save_Button->Size = System::Drawing::Size(75, 23);
+			this->Save_Button->TabIndex = 0;
+			this->Save_Button->Text = L"Г‘Г®ГµГ°Г Г­ГЁГІГј";
+			this->Save_Button->UseVisualStyleBackColor = true;
+			this->Save_Button->Click += gcnew System::EventHandler(this, &MyForm::Save_Button_Click);
 			// 
-			// comboBox1
+			// Doc_Template_ComboBox
 			// 
-			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Location = System::Drawing::Point(72, 22);
-			this->comboBox1->Name = L"comboBox1";
-			this->comboBox1->Size = System::Drawing::Size(200, 21);
-			this->comboBox1->TabIndex = 1;
-			this->comboBox1->TextChanged += gcnew System::EventHandler(this, &MyForm::ComboBox1_TextChanged);
-			this->comboBox1->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::ComboBox1_KeyDown);
+			this->Doc_Template_ComboBox->FormattingEnabled = true;
+			this->Doc_Template_ComboBox->Location = System::Drawing::Point(72, 22);
+			this->Doc_Template_ComboBox->Name = L"Doc_Template_ComboBox";
+			this->Doc_Template_ComboBox->Size = System::Drawing::Size(200, 21);
+			this->Doc_Template_ComboBox->TabIndex = 1;
+			this->Doc_Template_ComboBox->TextChanged += gcnew System::EventHandler(this, &MyForm::Doc_Template_ComboBox_TextChanged);
+			this->Doc_Template_ComboBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::Doc_Template_ComboBox_KeyDown);
 			// 
-			// comboBox2
+			// Auto_Number_ComboBox
 			// 
-			this->comboBox2->FormattingEnabled = true;
-			this->comboBox2->Location = System::Drawing::Point(72, 47);
-			this->comboBox2->Name = L"comboBox2";
-			this->comboBox2->Size = System::Drawing::Size(200, 21);
-			this->comboBox2->TabIndex = 2;
-			this->comboBox2->TextChanged += gcnew System::EventHandler(this, &MyForm::ComboBox2_TextChanged);
-			this->comboBox2->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::ComboBox2_KeyDown);
+			this->Auto_Number_ComboBox->FormattingEnabled = true;
+			this->Auto_Number_ComboBox->Location = System::Drawing::Point(72, 47);
+			this->Auto_Number_ComboBox->Name = L"Auto_Number_ComboBox";
+			this->Auto_Number_ComboBox->Size = System::Drawing::Size(200, 21);
+			this->Auto_Number_ComboBox->TabIndex = 2;
+			this->Auto_Number_ComboBox->TextChanged += gcnew System::EventHandler(this, &MyForm::Auto_Number_ComboBox_TextChanged);
+			this->Auto_Number_ComboBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::Auto_Number_ComboBox_KeyDown);
 			// 
-			// dateTimePicker1
+			// dateTimePicker
 			// 
-			this->dateTimePicker1->Location = System::Drawing::Point(72, 74);
-			this->dateTimePicker1->Name = L"dateTimePicker1";
-			this->dateTimePicker1->Size = System::Drawing::Size(121, 20);
-			this->dateTimePicker1->TabIndex = 4;
+			this->dateTimePicker->Location = System::Drawing::Point(72, 74);
+			this->dateTimePicker->Name = L"dateTimePicker";
+			this->dateTimePicker->Size = System::Drawing::Size(121, 20);
+			this->dateTimePicker->TabIndex = 4;
 			// 
-			// label1
+			// Doc_Template_Label
 			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(12, 22);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(46, 13);
-			this->label1->TabIndex = 5;
-			this->label1->Text = L"Шаблон";
+			this->Doc_Template_Label->AutoSize = true;
+			this->Doc_Template_Label->Location = System::Drawing::Point(12, 22);
+			this->Doc_Template_Label->Name = L"Doc_Template_Label";
+			this->Doc_Template_Label->Size = System::Drawing::Size(46, 13);
+			this->Doc_Template_Label->TabIndex = 5;
+			this->Doc_Template_Label->Text = L"ГГ ГЎГ«Г®Г­";
 			// 
-			// label2
+			// Auto_Number_Label
 			// 
-			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(12, 50);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(58, 13);
-			this->label2->TabIndex = 6;
-			this->label2->Text = L"Номер ТС";
+			this->Auto_Number_Label->AutoSize = true;
+			this->Auto_Number_Label->Location = System::Drawing::Point(12, 50);
+			this->Auto_Number_Label->Name = L"Auto_Number_Label";
+			this->Auto_Number_Label->Size = System::Drawing::Size(58, 13);
+			this->Auto_Number_Label->TabIndex = 6;
+			this->Auto_Number_Label->Text = L"ГЌГ®Г¬ГҐГ° Г’Г‘";
 			// 
-			// button2
+			// Generate_Button
 			// 
-			this->button2->Location = System::Drawing::Point(99, 108);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(94, 23);
-			this->button2->TabIndex = 7;
-			this->button2->Text = L"Сгенерировать";
-			this->button2->UseVisualStyleBackColor = true;
-			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
+			this->Generate_Button->Location = System::Drawing::Point(99, 108);
+			this->Generate_Button->Name = L"Generate_Button";
+			this->Generate_Button->Size = System::Drawing::Size(94, 23);
+			this->Generate_Button->TabIndex = 7;
+			this->Generate_Button->Text = L"Г‘ГЈГҐГ­ГҐГ°ГЁГ°Г®ГўГ ГІГј";
+			this->Generate_Button->UseVisualStyleBackColor = true;
+			this->Generate_Button->Click += gcnew System::EventHandler(this, &MyForm::Generate_Button_Click);
 			// 
-			// checkBox1
+			// Default_Organization
 			// 
-			this->checkBox1->AutoSize = true;
-			this->checkBox1->Location = System::Drawing::Point(199, 112);
-			this->checkBox1->Name = L"checkBox1";
-			this->checkBox1->Size = System::Drawing::Size(15, 14);
-			this->checkBox1->TabIndex = 8;
-			this->checkBox1->UseVisualStyleBackColor = true;
+			this->Default_Organization->AutoSize = true;
+			this->Default_Organization->Location = System::Drawing::Point(199, 112);
+			this->Default_Organization->Name = L"Default_Organization";
+			this->Default_Organization->Size = System::Drawing::Size(15, 14);
+			this->Default_Organization->TabIndex = 8;
+			this->Default_Organization->UseVisualStyleBackColor = true;
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(284, 143);
-			this->Controls->Add(this->checkBox1);
-			this->Controls->Add(this->button2);
-			this->Controls->Add(this->label2);
-			this->Controls->Add(this->label1);
-			this->Controls->Add(this->dateTimePicker1);
-			this->Controls->Add(this->comboBox2);
-			this->Controls->Add(this->comboBox1);
-			this->Controls->Add(this->button1);
+			this->Controls->Add(this->Default_Organization);
+			this->Controls->Add(this->Generate_Button);
+			this->Controls->Add(this->Auto_Number_Label);
+			this->Controls->Add(this->Doc_Template_Label);
+			this->Controls->Add(this->dateTimePicker);
+			this->Controls->Add(this->Auto_Number_ComboBox);
+			this->Controls->Add(this->Doc_Template_ComboBox);
+			this->Controls->Add(this->Save_Button);
 			this->KeyPreview = true;
 			this->Name = L"MyForm";
 			this->Load += gcnew System::EventHandler(this, &MyForm::OnLoad);
@@ -193,18 +168,18 @@ namespace CLR {
 
 		}
 #pragma endregion
-	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void ComboBox1_TextChanged(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void ComboBox2_TextChanged(System::Object^  sender, EventArgs^  e);
-	private: System::Void ComboBox1_KeyDown(System::Object^  sender, KeyEventArgs^  e);
-	private: System::Void ComboBox2_KeyDown(System::Object^  sender, KeyEventArgs^  e);
+	private: System::Void Save_Button_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void Generate_Button_Click(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void Doc_Template_ComboBox_TextChanged(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void Auto_Number_ComboBox_TextChanged(System::Object^  sender, EventArgs^  e);
+	private: System::Void Doc_Template_ComboBox_KeyDown(System::Object^  sender, KeyEventArgs^  e);
+	private: System::Void Auto_Number_ComboBox_KeyDown(System::Object^  sender, KeyEventArgs^  e);
 	private: System::Void MyForm_KeyDown(System::Object^  sender, KeyEventArgs^  e);
 	private: System::Void OnLoad(System::Object ^sender, System::EventArgs ^e);
 
-	private: void Reader(array<String^>^ arr, System::String^ str);
+	private: void Reader(array<String^>^ arr, System::String^ str);//Р¤СѓРЅРєС†РёСЏ СЃС‡РёС‚С‹РІР°РµС‚ РґР°РЅРЅС‹Рµ РёР· С„Р°Р№Р»Р° Рё СЃРѕС…СЂР°РЅСЏРµС‚ РІ РјР°СЃСЃРёРІ.
 	private: void Reader(array<MyStruct^>^ arr, System::String^ str);
 
-	private: int GetSize(System::String^ str);
+	private: int GetSize(System::String^ str);//Р¤СѓРЅРєС†РёСЏ РїРѕР»СѓС‡Р°РµС‚ РєРѕР»-РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ С„Р°Р№Р»Рµ(1-Р№ СЌР»РµРјРµРЅС‚ РІ С„Р°Р№Р»Рµ.\).
 	};
 }
