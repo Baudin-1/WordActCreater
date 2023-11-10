@@ -16,7 +16,7 @@ int main(array<String^>^ argv) {
 	return 0;
 }
 
-System::Void CLR::MyForm::button1_Click(System::Object ^ sender, System::EventArgs ^ e)
+System::Void CLR::MyForm::Save_Button_Click(System::Object ^ sender, System::EventArgs ^ e)
 {
 	String^ Mark = gcnew String("");
 	String^NameOfOrg = gcnew String("AUTO-PARTS");
@@ -26,7 +26,7 @@ System::Void CLR::MyForm::button1_Click(System::Object ^ sender, System::EventAr
 
 	for (int i = 0; i < FileNames->Length; i++)
 	{
-		if (comboBox1->Text == FileNamesRu[i])
+		if (Doc_Template_ComboBox->Text == FileNamesRu[i])
 		{
 			value = i;
 			break;
@@ -35,62 +35,62 @@ System::Void CLR::MyForm::button1_Click(System::Object ^ sender, System::EventAr
 
 	for (; IndexNumberAuto < NumberAuto->Length; IndexNumberAuto++)
 	{
-		if (NumberAuto[IndexNumberAuto]->Number == comboBox2->Text)
+		if (NumberAuto[IndexNumberAuto]->Number == Auto_Number_ComboBox->Text)
 			break;
 	}
 
-	if (checkBox1->Checked)
+	if (Default_Organization->Checked)
 		NameOfOrg = "SEDA";
 
 	if (!(File::Exists("Resources\\" + FileNames[value] + "-" + NumberAuto[IndexNumberAuto]->Mark + "-" + NameOfOrg + ".doc")))
 	{
-		MyForm::Text = "Øàáëîí íå ñóùåñòâóåò";
+		MyForm::Text = "Ð¨Ð°Ð±Ð»Ð¾Ð½ Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚";
 		pwriter->Close();
 		return System::Void();
 	}
 
 	pwriter->WriteLine(FileNames[value] + "-" + NumberAuto[IndexNumberAuto]->Mark + "-" + NameOfOrg + ".doc");
-	pwriter->WriteLine(comboBox2->Text);
+	pwriter->WriteLine(Auto_Number_ComboBox->Text);
 	pwriter->WriteLine(NumberAuto[IndexNumberAuto]->Year);
 
-	if (dateTimePicker1->Value.Day<10)
-		pwriter->WriteLine("0" + dateTimePicker1->Value.Day);
+	if (dateTimePicker->Value.Day<10)
+		pwriter->WriteLine("0" + dateTimePicker->Value.Day);
 	else
-		pwriter->WriteLine(dateTimePicker1->Value.Day);
+		pwriter->WriteLine(dateTimePicker->Value.Day);
 
-	if (dateTimePicker1->Value.Month<10)
-		pwriter->WriteLine("0" + dateTimePicker1->Value.Month);
+	if (dateTimePicker->Value.Month<10)
+		pwriter->WriteLine("0" + dateTimePicker->Value.Month);
 	else
-		pwriter->WriteLine(dateTimePicker1->Value.Month);
+		pwriter->WriteLine(dateTimePicker->Value.Month);
 
-	pwriter->WriteLine(dateTimePicker1->Value.Year);
+	pwriter->WriteLine(dateTimePicker->Value.Year);
 	pwriter->Close();
 
-	MyForm::Text = "Ñîõðàíåíî";
+	MyForm::Text = "Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¾";
 
 	return System::Void();
 }
 
-System::Void CLR::MyForm::button2_Click(System::Object ^ sender, System::EventArgs ^ e)
+System::Void CLR::MyForm::Generate_Button_Click(System::Object ^ sender, System::EventArgs ^ e)
 {
 	STARTUPINFO si = { 0 };
 	PROCESS_INFORMATION pi = { 0 };
 	CreateProcess(TEXT("GenerateWord.exe"), NULL, NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi);
 
-	MyForm::Text = "Ñãåíåðèðîâàíî";
+	MyForm::Text = "Ð¡Ð³ÐµÐ½ÐµÑ€Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¾";
 
 	return System::Void();
 }
 
-System::Void CLR::MyForm::ComboBox1_TextChanged(System::Object ^ sender, System::EventArgs ^ e)
+System::Void CLR::MyForm::Doc_Template_ComboBox_TextChanged(System::Object ^ sender, System::EventArgs ^ e)
 {
 	if (b)
 	{
 		b = false;
 		return System::Void();
 	}
-	comboBox1->Text = comboBox1->Text->ToUpper();
-	comboBox1->Items->Clear();
+	Doc_Template_ComboBox->Text = Doc_Template_ComboBox->Text->ToUpper();
+	Doc_Template_ComboBox->Items->Clear();
 
 	int k = 0;
 
@@ -98,13 +98,13 @@ System::Void CLR::MyForm::ComboBox1_TextChanged(System::Object ^ sender, System:
 	{
 		int value = 0;
 
-		for (int j = 0; j<FileNamesRu[i]->Length && j < comboBox1->Text->Length; j++)
+		for (int j = 0; j<FileNamesRu[i]->Length && j < Doc_Template_ComboBox->Text->Length; j++)
 		{
-			if (comboBox1->Text[j] == FileNamesRu[i][j])
+			if (Doc_Template_ComboBox->Text[j] == FileNamesRu[i][j])
 				value++;
 		}
 
-		if (value == comboBox1->Text->Length)
+		if (value == Doc_Template_ComboBox->Text->Length)
 		{
 			BuferFileNamesRu[k] = FileNamesRu[i];
 			k++;
@@ -113,25 +113,25 @@ System::Void CLR::MyForm::ComboBox1_TextChanged(System::Object ^ sender, System:
 
 	for (int i = 0; i < k; i++)
 	{
-		comboBox1->Items->Add(BuferFileNamesRu[i]);
+		Doc_Template_ComboBox->Items->Add(BuferFileNamesRu[i]);
 	}
-	comboBox1->DroppedDown = true;
-	comboBox1->SelectionStart = comboBox1->Text->Length;
+	Doc_Template_ComboBox->DroppedDown = true;
+	Doc_Template_ComboBox->SelectionStart = Doc_Template_ComboBox->Text->Length;
 
 	MyForm::Text = "";
 
 	return System::Void();
 }
 
-System::Void CLR::MyForm::ComboBox2_TextChanged(System::Object ^ sender, EventArgs ^ e)
+System::Void CLR::MyForm::Auto_Number_ComboBox_TextChanged(System::Object ^ sender, EventArgs ^ e)
 {
 	if (b)
 	{
 		b = false;
 		return System::Void();
 	}
-	comboBox2->Text = comboBox2->Text->ToUpper();
-	comboBox2->Items->Clear();
+	Auto_Number_ComboBox->Text = Auto_Number_ComboBox->Text->ToUpper();
+	Auto_Number_ComboBox->Items->Clear();
 
 	int k = 0;
 
@@ -139,13 +139,13 @@ System::Void CLR::MyForm::ComboBox2_TextChanged(System::Object ^ sender, EventAr
 	{
 		int value = 0;
 
-		for (int j = 1; j<NumberAuto[i]->Number->Length + 1 && j < comboBox2->Text->Length + 1; j++)
+		for (int j = 1; j<NumberAuto[i]->Number->Length + 1 && j < Auto_Number_ComboBox->Text->Length + 1; j++)
 		{
-			if (j < NumberAuto[i]->Number->Length - 1 && comboBox2->Text[j - 1] == NumberAuto[i]->Number[j])
+			if (j < NumberAuto[i]->Number->Length - 1 && Auto_Number_ComboBox->Text[j - 1] == NumberAuto[i]->Number[j])
 				value++;
 		}
 
-		if (value == comboBox2->Text->Length)
+		if (value == Auto_Number_ComboBox->Text->Length)
 		{
 			BuferNumberAuto[k] = NumberAuto[i]->Number;
 			k++;
@@ -153,21 +153,21 @@ System::Void CLR::MyForm::ComboBox2_TextChanged(System::Object ^ sender, EventAr
 	}
 
 	for (int i = 0; i < k; i++)
-		comboBox2->Items->Add(BuferNumberAuto[i]);
+		Auto_Number_ComboBox->Items->Add(BuferNumberAuto[i]);
 
-	comboBox2->DroppedDown = true;
-	comboBox2->SelectionStart = comboBox2->Text->Length;
+	Auto_Number_ComboBox->DroppedDown = true;
+	Auto_Number_ComboBox->SelectionStart = Auto_Number_ComboBox->Text->Length;
 
 	MyForm::Text = "";
 
 	return System::Void();
 }
 
-System::Void CLR::MyForm::ComboBox1_KeyDown(System::Object ^ sender, KeyEventArgs ^ e)
+System::Void CLR::MyForm::Doc_Template_ComboBox_KeyDown(System::Object ^ sender, KeyEventArgs ^ e)
 {
-	if (e->KeyCode == Keys::F3 && comboBox1->Items->Count == 1)
+	if (e->KeyCode == Keys::F3 && Doc_Template_ComboBox->Items->Count == 1)
 	{
-		comboBox1->Text = comboBox1->Items[0]->ToString();
+		Doc_Template_ComboBox->Text = Doc_Template_ComboBox->Items[0]->ToString();
 		b = true;
 	}
 
@@ -177,12 +177,12 @@ System::Void CLR::MyForm::ComboBox1_KeyDown(System::Object ^ sender, KeyEventArg
 	return System::Void();
 }
 
-System::Void CLR::MyForm::ComboBox2_KeyDown(System::Object ^ sender, KeyEventArgs ^ e)
+System::Void CLR::MyForm::Auto_Number_ComboBox_KeyDown(System::Object ^ sender, KeyEventArgs ^ e)
 {
 
-	if (e->KeyCode == Keys::F3 && comboBox2->Items->Count == 1)
+	if (e->KeyCode == Keys::F3 && Auto_Number_ComboBox->Items->Count == 1)
 	{
-		comboBox2->Text = comboBox2->Items[0]->ToString();
+		Auto_Number_ComboBox->Text = Auto_Number_ComboBox->Items[0]->ToString();
 		b = true;
 	}
 	if (e->KeyCode == Keys::Down | e->KeyCode == Keys::Up)
@@ -195,7 +195,7 @@ System::Void CLR::MyForm::MyForm_KeyDown(System::Object ^ sender, KeyEventArgs ^
 {
 	if (e->KeyCode == Keys::ControlKey)
 	{
-		checkBox1->Checked = !(checkBox1->Checked);
+		Default_Organization->Checked = !(Default_Organization->Checked);
 		return System::Void();
 	}
 
@@ -212,15 +212,15 @@ System::Void CLR::MyForm::MyForm_KeyDown(System::Object ^ sender, KeyEventArgs ^
 		if (in == 2)
 			in = -1;
 
-		if (in == 0 && Objects[in] == comboBox1)
-			comboBox1->DroppedDown = false;
+		if (in == 0 && Objects[in] == Doc_Template_ComboBox)
+			Doc_Template_ComboBox->DroppedDown = false;
 
 		Objects[in + 1]->Focus();
 	}
 	else if (e->KeyCode == Keys::F2)
 	{
-		if (in == 0 && Objects[in] == comboBox1)
-			comboBox1->DroppedDown = false;
+		if (in == 0 && Objects[in] == Doc_Template_ComboBox)
+			Doc_Template_ComboBox->DroppedDown = false;
 
 		if (in == 0 | in == -1)
 			in = 3;
@@ -232,14 +232,14 @@ System::Void CLR::MyForm::MyForm_KeyDown(System::Object ^ sender, KeyEventArgs ^
 
 System::Void CLR::MyForm::OnLoad(System::Object ^ sender, System::EventArgs ^ e)
 {
-	dateTimePicker1->Value = dateTimePicker1->Value.AddMonths(-1);
+	dateTimePicker->Value = dateTimePicker->Value.AddMonths(-1);
 	Reader(FileNames, "FileNames.txt");
 	Reader(FileNamesRu, "FileNamesRu.txt");
 	Reader(NumberAuto, "NumberAuto.txt");
 	Reader(NumberAuto, "NumberAuto.txt");
-	Objects[0] = comboBox1;
-	Objects[1] = comboBox2;
-	Objects[2] = dateTimePicker1;
+	Objects[0] = Doc_Template_ComboBox;
+	Objects[1] = Auto_Number_ComboBox;
+	Objects[2] = dateTimePicker;
 
 	return System::Void();
 }
