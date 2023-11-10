@@ -42,7 +42,7 @@ int main()
 		word->Visible = true;
 		word->Activate();
 
-		_DocumentPtr wdoc1 = word->Documents->Open(&_variant_t(FileName.c_str()));//Открываем шаблон
+		_DocumentPtr wdoc1 = word->Documents->Open(&_variant_t(FileName.c_str()));//Открываем документ
 
 		Word::FindPtr f = word->Selection->Find;
 
@@ -65,7 +65,7 @@ int main()
 	void Replace(Word::FindPtr &f, std::string find_text, std::string replacement_text)
 	{
 		f->ClearFormatting();//Очищаем фильтры поиска и замены
-		f->Text = find_text.c_str();//Определяет искомый текст
+		f->Text = find_text.c_str();//Определяем искомый текст
 		f->Replacement->ClearFormatting();
 		f->Replacement->Text = replacement_text.c_str();
 		f->Execute(&vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &_variant_t(Word::WdReplace::wdReplaceAll), &vtMissing, &vtMissing, &vtMissing, &vtMissing);//Функция замены текста.
