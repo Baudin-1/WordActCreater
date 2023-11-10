@@ -11,14 +11,14 @@ rename("EOF","EndOfFile") rename("BOF","BegOfFile")
 
 using namespace Word;
 
-void Replace(Word::FindPtr &f, std::string str1, std::string str2);
+void Replace(Word::FindPtr &f, std::string str1, std::string str2);//Функция поиска и замены.
 
 int main()
 {
 
 	::CoInitialize(NULL);
 	{
-		std::ifstream in("Bufer.txt");
+		std::ifstream in("Bufer.txt");//Забираем данные из файла
 
 		std::string FileName;
 		std::string NumberAuto;
@@ -42,7 +42,7 @@ int main()
 		word->Visible = true;
 		word->Activate();
 
-		_DocumentPtr wdoc1 = word->Documents->Open(&_variant_t(FileName.c_str()));
+		_DocumentPtr wdoc1 = word->Documents->Open(&_variant_t(FileName.c_str()));//Открываем шаблон
 
 		Word::FindPtr f = word->Selection->Find;
 
@@ -52,9 +52,9 @@ int main()
 		Replace(f, "<NNNN>", NumberAuto);
 		Replace(f, "<GG>", YearAuto);
 
-		wdoc1->Range()->Copy();
+		wdoc1->Range()->Copy();//Копируем содержание получившегося документа
 
-		wdoc1->Close(&_variant_t(Word::WdSaveOptions::wdDoNotSaveChanges));
+		wdoc1->Close(&_variant_t(Word::WdSaveOptions::wdDoNotSaveChanges));//Закрываем шаблон без сохранения
 		word->Quit();
 	}
 	::CoUninitialize();
@@ -64,9 +64,9 @@ int main()
 
 	void Replace(Word::FindPtr &f, std::string find_text, std::string replacement_text)
 	{
-		f->ClearFormatting();
-		f->Text = find_text.c_str();
+		f->ClearFormatting();//Очищаем фильтры поиска и замены
+		f->Text = find_text.c_str();//Определяет искомый текст
 		f->Replacement->ClearFormatting();
 		f->Replacement->Text = replacement_text.c_str();
-		f->Execute(&vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &_variant_t(Word::WdReplace::wdReplaceAll), &vtMissing, &vtMissing, &vtMissing, &vtMissing);
+		f->Execute(&vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &vtMissing, &_variant_t(Word::WdReplace::wdReplaceAll), &vtMissing, &vtMissing, &vtMissing, &vtMissing);//Функция замены текста.
 	}
