@@ -18,13 +18,13 @@ int main(array<String^>^ argv) {
 
 System::Void CLR::MyForm::Save_Button_Click(System::Object ^ sender, System::EventArgs ^ e)
 {
-	String^ Mark = gcnew String("");
-	String^NameOfOrg = gcnew String("AUTO-PARTS");
-	int value, IndexNumberAuto = 0;
+	String^ Mark = gcnew String("");//Строка с маркой автомобиля
+	String^NameOfOrg = gcnew String("Lagoona");//Строка с именем организации("Lagoona"- организация по умолчанию)
+	int value, IndexNumberAuto = 0;//Переменная value сохраняет позицию названия шаблона в латинице.
 
-	StreamWriter^ pwriter = gcnew StreamWriter("Bufer.txt", false, System::Text::Encoding::Default);
+	StreamWriter^ pwriter = gcnew StreamWriter("Bufer.txt", false, System::Text::Encoding::Default);//Открытие файла для записи информации.
 
-	for (int i = 0; i < FileNames->Length; i++)
+	for (int i = 0; i < FileNames->Length; i++)//Цикл определяет название шаблона в латинице.
 	{
 		if (Doc_Template_ComboBox->Text == FileNamesRu[i])
 		{
@@ -33,37 +33,37 @@ System::Void CLR::MyForm::Save_Button_Click(System::Object ^ sender, System::Eve
 		}
 	}
 
-	for (; IndexNumberAuto < NumberAuto->Length; IndexNumberAuto++)
+	for (; IndexNumberAuto < NumberAuto->Length; IndexNumberAuto++)//Цикл проходится по массиву NumberAuto и определяет есть ли в нём указанный ползователем Гос.номер.
 	{
 		if (NumberAuto[IndexNumberAuto]->Number == Auto_Number_ComboBox->Text)
 			break;
 	}
 
-	if (Default_Organization->Checked)
-		NameOfOrg = "SEDA";
+	if (Default_Organization->Checked)//Если чекбокс поставлен, организация по умолчанию меняется.
+		NameOfOrg = "City";
 
-	if (!(File::Exists("Resources\\" + FileNames[value] + "-" + NumberAuto[IndexNumberAuto]->Mark + "-" + NameOfOrg + ".doc")))
+	if (!(File::Exists("Resources\\" + FileNames[value] + "-" + NumberAuto[IndexNumberAuto]->Mark + "-" + NameOfOrg + ".doc")))//Проверка на наличие шаблона.
 	{
 		MyForm::Text = "Шаблон не существует";
 		pwriter->Close();
 		return System::Void();
 	}
 
-	pwriter->WriteLine(FileNames[value] + "-" + NumberAuto[IndexNumberAuto]->Mark + "-" + NameOfOrg + ".doc");
-	pwriter->WriteLine(Auto_Number_ComboBox->Text);
-	pwriter->WriteLine(NumberAuto[IndexNumberAuto]->Year);
+	pwriter->WriteLine(FileNames[value] + "-" + NumberAuto[IndexNumberAuto]->Mark + "-" + NameOfOrg + ".doc");//Запись имени шаблона в файл.
+	pwriter->WriteLine(Auto_Number_ComboBox->Text);//Запись Гос.номера
+	pwriter->WriteLine(NumberAuto[IndexNumberAuto]->Year);//запись года выпуска автмобиля
 
-	if (dateTimePicker->Value.Day<10)
+	if (dateTimePicker->Value.Day<10)//Проверка на необходимость нуля перед значением дня и его запись.
 		pwriter->WriteLine("0" + dateTimePicker->Value.Day);
 	else
 		pwriter->WriteLine(dateTimePicker->Value.Day);
 
-	if (dateTimePicker->Value.Month<10)
+	if (dateTimePicker->Value.Month<10)//Проверка на необходимость нуля перед значением месяца и его запись.
 		pwriter->WriteLine("0" + dateTimePicker->Value.Month);
 	else
 		pwriter->WriteLine(dateTimePicker->Value.Month);
 
-	pwriter->WriteLine(dateTimePicker->Value.Year);
+	pwriter->WriteLine(dateTimePicker->Value.Year);//Запись текущего года
 	pwriter->Close();
 
 	MyForm::Text = "Сохранено";
@@ -75,7 +75,7 @@ System::Void CLR::MyForm::Generate_Button_Click(System::Object ^ sender, System:
 {
 	STARTUPINFO si = { 0 };
 	PROCESS_INFORMATION pi = { 0 };
-	CreateProcess(TEXT("GenerateWord.exe"), NULL, NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi);
+	CreateProcess(TEXT("GenerateWord.exe"), NULL, NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi);//Запуск программы для генерации документа Word/
 
 	MyForm::Text = "Сгенерировано";
 
@@ -84,17 +84,17 @@ System::Void CLR::MyForm::Generate_Button_Click(System::Object ^ sender, System:
 
 System::Void CLR::MyForm::Doc_Template_ComboBox_TextChanged(System::Object ^ sender, System::EventArgs ^ e)
 {
-	if (b)
+	if (b)//Проверка для предотвращения лишних вызовов функции Doc_Template_ComboBox_TextChanged.
 	{
 		b = false;
 		return System::Void();
 	}
-	Doc_Template_ComboBox->Text = Doc_Template_ComboBox->Text->ToUpper();
+	Doc_Template_ComboBox->Text = Doc_Template_ComboBox->Text->ToUpper();//Принудительный набор текста в верхнем регистре.
 	Doc_Template_ComboBox->Items->Clear();
 
 	int k = 0;
 
-	for (int i = 0; i < FileNamesRu->Length; i++)
+	for (int i = 0; i < FileNamesRu->Length; i++)//Цикл ищет подходяшие под условия поиска названия шаблонов.
 	{
 		int value = 0;
 
@@ -111,12 +111,12 @@ System::Void CLR::MyForm::Doc_Template_ComboBox_TextChanged(System::Object ^ sen
 		}
 	}
 
-	for (int i = 0; i < k; i++)
+	for (int i = 0; i < k; i++)//Добавляет подходяшие условиям поиска названия шаблонов в список Doc_Template_ComboBox.
 	{
 		Doc_Template_ComboBox->Items->Add(BuferFileNamesRu[i]);
 	}
-	Doc_Template_ComboBox->DroppedDown = true;
-	Doc_Template_ComboBox->SelectionStart = Doc_Template_ComboBox->Text->Length;
+	Doc_Template_ComboBox->DroppedDown = true;//Выпадающий список остается открытым
+	Doc_Template_ComboBox->SelectionStart = Doc_Template_ComboBox->Text->Length;//Переносит курсор в конец текста.
 
 	MyForm::Text = "";
 
@@ -125,6 +125,7 @@ System::Void CLR::MyForm::Doc_Template_ComboBox_TextChanged(System::Object ^ sen
 
 System::Void CLR::MyForm::Auto_Number_ComboBox_TextChanged(System::Object ^ sender, EventArgs ^ e)
 {
+	//Данная функция идентична предыдущей за исключением источника информации(вместо названий шаблонов Гос. номера)
 	if (b)
 	{
 		b = false;
@@ -165,13 +166,13 @@ System::Void CLR::MyForm::Auto_Number_ComboBox_TextChanged(System::Object ^ send
 
 System::Void CLR::MyForm::Doc_Template_ComboBox_KeyDown(System::Object ^ sender, KeyEventArgs ^ e)
 {
-	if (e->KeyCode == Keys::F3 && Doc_Template_ComboBox->Items->Count == 1)
+	if (e->KeyCode == Keys::F3 && Doc_Template_ComboBox->Items->Count == 1)//При наличии лишь одного варианта в списке нажатие F3 автоматически заполняет ComboBox им.
 	{
 		Doc_Template_ComboBox->Text = Doc_Template_ComboBox->Items[0]->ToString();
-		b = true;
+		b = true;//При выполнении данной операции функция Text_Changed ызывается автоматически. Таким образом останавливается ее выполнение в самом начале.
 	}
 
-	if (e->KeyCode == Keys::Down | e->KeyCode == Keys::Up)
+	if (e->KeyCode == Keys::Down | e->KeyCode == Keys::Up)//При нажатии этих клавиш тоже не должна вызываться функция Text_Changed/ 
 		b = true;
 
 	return System::Void();
@@ -179,7 +180,6 @@ System::Void CLR::MyForm::Doc_Template_ComboBox_KeyDown(System::Object ^ sender,
 
 System::Void CLR::MyForm::Auto_Number_ComboBox_KeyDown(System::Object ^ sender, KeyEventArgs ^ e)
 {
-
 	if (e->KeyCode == Keys::F3 && Auto_Number_ComboBox->Items->Count == 1)
 	{
 		Auto_Number_ComboBox->Text = Auto_Number_ComboBox->Items[0]->ToString();
@@ -193,13 +193,13 @@ System::Void CLR::MyForm::Auto_Number_ComboBox_KeyDown(System::Object ^ sender, 
 
 System::Void CLR::MyForm::MyForm_KeyDown(System::Object ^ sender, KeyEventArgs ^ e)
 {
-	if (e->KeyCode == Keys::ControlKey)
+	if (e->KeyCode == Keys::ControlKey)//При нажатии на Ctrl происходит изменение организации.
 	{
 		Default_Organization->Checked = !(Default_Organization->Checked);
 		return System::Void();
 	}
 
-	int in = -1;
+	int in = -1;//Переменная обозначает какой из элементов формы сейчас активен
 
 	for (int i = 0; i < Objects->Length; i++)
 	{
@@ -207,7 +207,7 @@ System::Void CLR::MyForm::MyForm_KeyDown(System::Object ^ sender, KeyEventArgs ^
 			in = i;
 	}
 
-	if (e->KeyCode == Keys::F1)
+	if (e->KeyCode == Keys::F1)//При нажатии F1 активируется следующий элемент.
 	{
 		if (in == 2)
 			in = -1;
@@ -217,7 +217,7 @@ System::Void CLR::MyForm::MyForm_KeyDown(System::Object ^ sender, KeyEventArgs ^
 
 		Objects[in + 1]->Focus();
 	}
-	else if (e->KeyCode == Keys::F2)
+	else if (e->KeyCode == Keys::F2)//При нажатии F2 - предыдущий
 	{
 		if (in == 0 && Objects[in] == Doc_Template_ComboBox)
 			Doc_Template_ComboBox->DroppedDown = false;
@@ -232,19 +232,19 @@ System::Void CLR::MyForm::MyForm_KeyDown(System::Object ^ sender, KeyEventArgs ^
 
 System::Void CLR::MyForm::OnLoad(System::Object ^ sender, System::EventArgs ^ e)
 {
-	dateTimePicker->Value = dateTimePicker->Value.AddMonths(-1);
-	Reader(FileNames, "FileNames.txt");
+	dateTimePicker->Value = dateTimePicker->Value.AddMonths(-1);//При загрузке формы сразу устанавливается предыдущий месяц.(Акты выпоняются за предыдущий месяц)
+	Reader(FileNames, "FileNames.txt");//Чтение из файлов
 	Reader(FileNamesRu, "FileNamesRu.txt");
 	Reader(NumberAuto, "NumberAuto.txt");
 	Reader(NumberAuto, "NumberAuto.txt");
-	Objects[0] = Doc_Template_ComboBox;
+	Objects[0] = Doc_Template_ComboBox;//Инициализация массива Objects
 	Objects[1] = Auto_Number_ComboBox;
 	Objects[2] = dateTimePicker;
 
 	return System::Void();
 }
 
-void CLR::MyForm::Reader(array<String^>^ arr, System::String^ str)
+void CLR::MyForm::Reader(array<String^>^ arr, System::String^ str)//Чтение названий шаблонов
 {
 	StreamReader^ preader = gcnew StreamReader(str, System::Text::Encoding::Default);
 	preader->ReadLine();
@@ -261,7 +261,7 @@ void CLR::MyForm::Reader(array<String^>^ arr, System::String^ str)
 	preader->Close();
 }
 
-void CLR::MyForm::Reader(array<CLR::MyStruct^>^ arr, System::String^ str)
+void CLR::MyForm::Reader(array<CLR::MyStruct^>^ arr, System::String^ str)//Чтение Гос. номеров вместе с годом выпуска и маркой.
 {
 	StreamReader^ preader = gcnew StreamReader(str, System::Text::Encoding::Default);
 	preader->ReadLine();
@@ -273,12 +273,12 @@ void CLR::MyForm::Reader(array<CLR::MyStruct^>^ arr, System::String^ str)
 	{
 		str = preader->ReadLine();
 
-		if (str == str->Empty)
+		if (str == str->Empty)//Пропуск пробелов в файле
 			continue;
 
-		if (str[0] == wchar_t::Parse("/"))
+		if (str[0] == wchar_t::Parse("/"))//Если строка начинается с /, то она сохраняется как марка или год выпуска
 		{
-			if (str[1] == wchar_t::Parse("2"))
+			if (str[1] == wchar_t::Parse("2"))//если после знака "/" идет цифра 2, значит это год выпуска.
 				Year = str->Substring(1);
 			else
 				Mark = str->Substring(1);
@@ -294,6 +294,7 @@ void CLR::MyForm::Reader(array<CLR::MyStruct^>^ arr, System::String^ str)
 
 int CLR::MyForm::GetSize(System::String ^ str)
 {
+//Первая строка в файле определяет общее кол-во строк.
 	StreamReader^ preader = gcnew StreamReader(str, System::Text::Encoding::Default);
 	return Int16::Parse(preader->ReadLine());
 }
