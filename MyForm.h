@@ -38,25 +38,26 @@ namespace CLR {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Button^  Save_Button;
-	private: System::Windows::Forms::Button^  Generate_Button;
-	private: System::Windows::Forms::ComboBox^  Doc_Template_ComboBox;
-	private: System::Windows::Forms::ComboBox^  Auto_Number_ComboBox;
-	private: System::Windows::Forms::CheckBox^  Default_Organization;
-	private: System::Windows::Forms::DateTimePicker^  dateTimePicker;
-	private: System::Windows::Forms::Label^  Doc_Template_Label;
-	private: System::Windows::Forms::Label^  Auto_Number_Label;
-
-	private: array<Control^>^ Objects = gcnew array<Control^>(3);
-
-	private: array<String^>^ FileNames = gcnew array<String^>(GetSize("FileNames.txt"));
-	private: array<String^>^ FileNamesRu = gcnew array<String^>(GetSize("FileNamesRu.txt"));
-	private: array<String^>^ BuferFileNamesRu = gcnew array<String^>(GetSize("FileNamesRu.txt"));
-	private: array<MyStruct^>^ NumberAuto = gcnew array<MyStruct^>(GetSize("NumberAuto.txt"));
-	private: array<String^>^ BuferNumberAuto = gcnew array<String^>(GetSize("NumberAuto.txt"));
-	private: bool b;
 	private:
-		System::ComponentModel::Container ^components;
+         System::Windows::Forms::Button^  Save_Button;
+         System::Windows::Forms::Button^  Generate_Button;
+	 System::Windows::Forms::ComboBox^  Doc_Template_ComboBox;
+	 System::Windows::Forms::ComboBox^  Auto_Number_ComboBox;
+	 System::Windows::Forms::CheckBox^  Default_Organization;
+	 System::Windows::Forms::DateTimePicker^  dateTimePicker;
+	 System::Windows::Forms::Label^  Doc_Template_Label;
+	 System::Windows::Forms::Label^  Auto_Number_Label;
+
+	 array<Control^>^ Objects = gcnew array<Control^>(3);//Массив хранит объекты формы.
+
+	 array<String^>^ FileNames = gcnew array<String^>(GetSize("FileNames.txt"));//Хранит названия шаблонов.
+	 array<String^>^ FileNamesRu = gcnew array<String^>(GetSize("FileNamesRu.txt"));//Хранит названия шаблонов на русском.
+	 array<String^>^ BuferFileNamesRu = gcnew array<String^>(GetSize("FileNamesRu.txt"));//Необходим для хранения результата поиска
+	 array<MyStruct^>^ NumberAuto = gcnew array<MyStruct^>(GetSize("NumberAuto.txt"));//Хранит Гос. номера
+	 array<String^>^ BuferNumberAuto = gcnew array<String^>(GetSize("NumberAuto.txt"));
+	 bool b;//Определяет необходимость остановки функции Text_changed/
+	
+	System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
 		
@@ -78,7 +79,7 @@ namespace CLR {
 			this->Save_Button->Name = L"Save_Button";
 			this->Save_Button->Size = System::Drawing::Size(75, 23);
 			this->Save_Button->TabIndex = 0;
-			this->Save_Button->Text = L"Ñîõðàíèòü";
+			this->Save_Button->Text = L"Сохранить";
 			this->Save_Button->UseVisualStyleBackColor = true;
 			this->Save_Button->Click += gcnew System::EventHandler(this, &MyForm::Save_Button_Click);
 			// 
@@ -116,7 +117,7 @@ namespace CLR {
 			this->Doc_Template_Label->Name = L"Doc_Template_Label";
 			this->Doc_Template_Label->Size = System::Drawing::Size(46, 13);
 			this->Doc_Template_Label->TabIndex = 5;
-			this->Doc_Template_Label->Text = L"Øàáëîí";
+			this->Doc_Template_Label->Text = L"Шаблон";
 			// 
 			// Auto_Number_Label
 			// 
@@ -125,7 +126,7 @@ namespace CLR {
 			this->Auto_Number_Label->Name = L"Auto_Number_Label";
 			this->Auto_Number_Label->Size = System::Drawing::Size(58, 13);
 			this->Auto_Number_Label->TabIndex = 6;
-			this->Auto_Number_Label->Text = L"Íîìåð ÒÑ";
+			this->Auto_Number_Label->Text = L"Номер ТС";
 			// 
 			// Generate_Button
 			// 
@@ -133,7 +134,7 @@ namespace CLR {
 			this->Generate_Button->Name = L"Generate_Button";
 			this->Generate_Button->Size = System::Drawing::Size(94, 23);
 			this->Generate_Button->TabIndex = 7;
-			this->Generate_Button->Text = L"Ñãåíåðèðîâàòü";
+			this->Generate_Button->Text = L"Сгенерировать";
 			this->Generate_Button->UseVisualStyleBackColor = true;
 			this->Generate_Button->Click += gcnew System::EventHandler(this, &MyForm::Generate_Button_Click);
 			// 
@@ -168,18 +169,19 @@ namespace CLR {
 
 		}
 #pragma endregion
-	private: System::Void Save_Button_Click(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void Generate_Button_Click(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void Doc_Template_ComboBox_TextChanged(System::Object^  sender, System::EventArgs^  e);
-	private: System::Void Auto_Number_ComboBox_TextChanged(System::Object^  sender, EventArgs^  e);
-	private: System::Void Doc_Template_ComboBox_KeyDown(System::Object^  sender, KeyEventArgs^  e);
-	private: System::Void Auto_Number_ComboBox_KeyDown(System::Object^  sender, KeyEventArgs^  e);
-	private: System::Void MyForm_KeyDown(System::Object^  sender, KeyEventArgs^  e);
-	private: System::Void OnLoad(System::Object ^sender, System::EventArgs ^e);
+	private: 
+         System::Void Save_Button_Click(System::Object^  sender, System::EventArgs^  e);
+	 System::Void Generate_Button_Click(System::Object^  sender, System::EventArgs^  e);
+	 System::Void Doc_Template_ComboBox_TextChanged(System::Object^  sender, System::EventArgs^  e);
+	 System::Void Auto_Number_ComboBox_TextChanged(System::Object^  sender, EventArgs^  e);
+	 System::Void Doc_Template_ComboBox_KeyDown(System::Object^  sender, KeyEventArgs^  e);
+	 System::Void Auto_Number_ComboBox_KeyDown(System::Object^  sender, KeyEventArgs^  e);
+	 System::Void MyForm_KeyDown(System::Object^  sender, KeyEventArgs^  e);
+	 System::Void OnLoad(System::Object ^sender, System::EventArgs ^e);
 
-	private: void Reader(array<String^>^ arr, System::String^ str);//Функция считывает данные из файла и сохраняет в массив.
-	private: void Reader(array<MyStruct^>^ arr, System::String^ str);
+	 void Reader(array<String^>^ arr, System::String^ str);//Функция считывает данные из файла и сохраняет в массив.
+	 void Reader(array<MyStruct^>^ arr, System::String^ str);
 
-	private: int GetSize(System::String^ str);//Функция получает кол-во элементов в файле(1-й элемент в файле.\).
+	 int GetSize(System::String^ str);//Функция получает кол-во элементов в файле(1-й элемент в файле).
 	};
 }
